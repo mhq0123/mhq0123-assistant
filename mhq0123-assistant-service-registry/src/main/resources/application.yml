@@ -1,0 +1,49 @@
+#端口
+server:
+  port: 8177
+
+#服务名
+spring:
+  application:
+    name: mhq0123-assistant-service-registry
+
+  #默认开发
+  profiles:
+    active: dev
+
+#注册配置
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    #是否注册自身
+    register-with-eureka: false
+    #是否获取注册信息
+    fetch-registry: false
+    service-url:
+      #注册服务地址
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  server:
+    #启用自我保护
+    enable-self-preservation: true
+
+endpoints:
+  shutdown:
+    enabled: true
+
+#开发
+---
+spring:
+  profiles: dev
+
+#日志
+logging:
+  config: classpath:logback-dev.xml
+
+---
+#生产
+spring:
+  profiles: prod
+
+logging:
+  config: classpath:logback-prod.xml

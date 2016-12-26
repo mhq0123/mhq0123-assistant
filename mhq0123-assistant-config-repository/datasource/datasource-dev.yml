@@ -1,0 +1,22 @@
+#数据源信息yml
+datasource:
+  database: mysql
+  driverClass: com.mysql.jdbc.Driver
+  url: jdbc:mysql://127.0.0.1:3306/assistant?zeroDateTimeBehavior=convertToNull
+  username: assistant
+  password: 123456
+  initialSize: 5
+  jmxEnabled: true
+  logAbandoned: true
+  maxActive: 50
+  maxWait: 60000
+  minEvictableIdleTimeMillis: 30000
+  minIdle: 5
+  removeAbandoned: true
+  removeAbandonedTimeout: 60
+  testOnBorrow: false
+  testOnReturn: false
+  testWhileIdle: true
+  timeBetweenEvictionRunsMillis: 30000
+  validationInterval: 30000
+  validationQuery: SELECT 1

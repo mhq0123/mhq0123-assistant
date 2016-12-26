@@ -10,6 +10,7 @@
 
     <modules>
         <module>mhq0123-assistant-config-server</module>
+        <module>mhq0123-assistant-service-registry</module>
     </modules>
 
     <packaging>pom</packaging>
