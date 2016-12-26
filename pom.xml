@@ -11,6 +11,8 @@
     <modules>
         <module>mhq0123-assistant-config-server</module>
         <module>mhq0123-assistant-service-registry</module>
+        <module>mhq0123-assistant-micro-service</module>
+        <module>mhq0123-assistant-edge-service</module>
     </modules>
 
     <packaging>pom</packaging>
@@ -25,11 +27,14 @@
         <java.version>1.8</java.version>
 
         <!--jars-->
+        <version.com.mhq0123.assistant.microservice.databank>1.0-SNAPSHOT</version.com.mhq0123.assistant.microservice.databank>
+
         <version.org.springframework.boot>1.4.2.RELEASE</version.org.springframework.boot>
         <version.org.springframework.cloud>Camden.SR3</version.org.springframework.cloud>
         <version.org.springframework.cloud.zuul>1.2.3.RELEASE</version.org.springframework.cloud.zuul>
         <version.com.fasterxml.jackson>2.8.5</version.com.fasterxml.jackson>
         <version.com.alibaba.fastjson>1.2.22</version.com.alibaba.fastjson>
+
         <!--plugs-->
     </properties>
 

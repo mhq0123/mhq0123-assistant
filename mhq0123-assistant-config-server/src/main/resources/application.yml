@@ -26,11 +26,11 @@ spring:
             clone-on-start: true
 
 #rabbitmq
-#  rabbitmq:
-#    host: localhost
-#    port: 5672
-#    username: mhq0123-assistant
-#    password: 123456
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: assistant
+    password: 123456
 
 ##开启用户名密码验证
 #security:
