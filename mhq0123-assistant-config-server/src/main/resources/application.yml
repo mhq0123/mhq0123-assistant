@@ -1,0 +1,64 @@
+#服务端口
+server:
+  port: 8188
+
+spring:
+  #名称
+  application:
+    name: mhq0123-assistant-config-server
+
+  #默认开发
+  profiles:
+    active: dev
+
+  #健康检查
+  cloud:
+      config:
+        server:
+          health:
+            enabled: true
+          #配置仓库地址
+          git:
+            uri: https://github.com/mhq0123/mhq0123-assistant.git
+            #{application} 动态搜索
+            search-paths: mhq0123-assistant-config-repository/{application}
+            #启动时是否clone
+            clone-on-start: true
+
+#rabbitmq
+#  rabbitmq:
+#    host: localhost
+#    port: 5672
+#    username: mhq0123-assistant
+#    password: 123456
+
+##开启用户名密码验证
+#security:
+#  user:
+#    role: whole
+#    name: user
+#    password: 123456
+
+#注册服务
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8177/eureka/
+
+#开发
+---
+spring:
+  profiles: dev
+
+#日志
+logging:
+  config: classpath:logback-dev.xml
+
+---
+#生产
+spring:
+  profiles: prod
+
+logging:
+  config: classpath:logback-prod.xml
+

@@ -7,8 +7,9 @@
     <groupId>com.mhq0123.assistant</groupId>
     <artifactId>mhq0123-assistant</artifactId>
     <version>1.0-SNAPSHOT</version>
+
     <modules>
-        <module>mhq0123-assistant-config</module>
+        <module>mhq0123-assistant-config-server</module>
     </modules>
 
     <packaging>pom</packaging>

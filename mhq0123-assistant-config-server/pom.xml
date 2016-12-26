@@ -9,11 +9,11 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>mhq0123-assistant-config</artifactId>
+    <artifactId>mhq0123-assistant-config-server</artifactId>
     <packaging>jar</packaging>
 
 
-    <name>mhq0123-assistant-config</name>
+    <name>mhq0123-assistant-config-server</name>
     <url>http://maven.apache.org</url>
 
     <!--引入公共版本-->
