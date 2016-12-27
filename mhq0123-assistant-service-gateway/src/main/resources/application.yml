@@ -1,0 +1,51 @@
+#端口
+server:
+  port: 8199
+
+#应用信息
+spring:
+  application:
+    name: mhq0123-assistant-service-gateway
+
+  #默认开发
+  profiles:
+    active: dev
+
+#注册中心
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8177/eureka/
+
+#路由信息,多个节点时自动集成ribbon负载均衡
+zuul:
+  routes:
+    mhq0123-assistant-edgeservice-message:
+      path: /message/**
+      service-id: mhq0123-assistant-edgeservice-message
+
+#设置断路器的超时（默认1s）
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000
+
+#开发
+---
+spring:
+  profiles: dev
+
+#日志
+logging:
+  config: classpath:logback-dev.xml
+
+---
+#生产
+spring:
+  profiles: prod
+
+logging:
+  config: classpath:logback-prod.xml
