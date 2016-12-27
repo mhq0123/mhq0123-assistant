@@ -14,7 +14,6 @@
         <module>mhq0123-assistant-micro-service</module>
         <module>mhq0123-assistant-edge-service</module>
         <module>mhq0123-assistant-service-gateway</module>
-        <module>mhq0123-assistant-web-client</module>
     </modules>
 
     <packaging>pom</packaging>
