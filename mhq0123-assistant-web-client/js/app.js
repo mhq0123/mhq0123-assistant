@@ -40,22 +40,22 @@
 	/**
 	 * 新用户注册
 	 **/
-	owner.reg = function(regInfo, callback) {
+	owner.register = function(registerInfo, callback) {
 		callback = callback || $.noop;
-		regInfo = regInfo || {};
-		regInfo.account = regInfo.account || '';
-		regInfo.password = regInfo.password || '';
-		if (regInfo.account.length < 5) {
+		registerInfo = registerInfo || {};
+		registerInfo.account = registerInfo.account || '';
+		registerInfo.password = registerInfo.password || '';
+		if (registerInfo.account.length < 5) {
 			return callback('用户名最短需要 5 个字符');
 		}
-		if (regInfo.password.length < 6) {
+		if (registerInfo.password.length < 6) {
 			return callback('密码最短需要 6 个字符');
 		}
-		if (!checkEmail(regInfo.email)) {
+		if (!checkEmail(registerInfo.email)) {
 			return callback('邮箱地址不合法');
 		}
 		var users = JSON.parse(localStorage.getItem('$users') || '[]');
-		users.push(regInfo);
+		users.push(registerInfo);
 		localStorage.setItem('$users', JSON.stringify(users));
 		return callback();
 	};
