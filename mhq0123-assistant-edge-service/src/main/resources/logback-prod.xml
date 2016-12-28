@@ -8,11 +8,11 @@
     </appender>
     <!-- 文件日志 -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>/root/mhq0123-assistant/logs/mhq0123-assistant-edgeservice-message/mhq0123-assistant-edgeservice-message.log</file>
+        <file>/root/mhq0123-assistant/logs/mhq0123-assistant-edgeservice/mhq0123-assistant-edgeservice.log</file>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- linux 下后缀为gz, window 下后缀为zip -->
-            <fileNamePattern>/root/mhq0123-assistant/logs/mhq0123-assistant-edgeservice-message/mhq0123-assistant-edgeservice-message_%d{yyyy-MM-dd}_%i.log.gz</fileNamePattern>
+            <fileNamePattern>/root/mhq0123-assistant/logs/mhq0123-assistant-edgeservice/mhq0123-assistant-edgeservice_%d{yyyy-MM-dd}_%i.log.gz</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>100MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>

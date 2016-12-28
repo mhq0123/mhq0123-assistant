@@ -1,4 +1,4 @@
-package com.mhq0123.assistant.edgeservice.message;
+package com.mhq0123.assistant.edgeservice;
 
 import com.mhq0123.assistant.microservice.databank.invoker.MicroServiceDataBankClient;
 import com.mhq0123.assistant.microservice.databank.invoker.bean.User;
@@ -24,9 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 @EnableFeignClients
 @RestController
 @ComponentScan("com.mhq0123.assistant") // TODO 要加入扫描路径
-public class EdgeServiceMessageApplication {
+public class EdgeServiceApplication {
 
-    private final static Logger logger = LoggerFactory.getLogger(EdgeServiceMessageApplication.class);
+    private final static Logger logger = LoggerFactory.getLogger(EdgeServiceApplication.class);
 
     @Autowired
     private MicroServiceDataBankClient microServiceDataBankClient;
@@ -39,6 +39,6 @@ public class EdgeServiceMessageApplication {
     }
 
     public static void main(String[] args) {
-        new SpringApplicationBuilder(EdgeServiceMessageApplication.class).web(true).run(args);
+        new SpringApplicationBuilder(EdgeServiceApplication.class).web(true).run(args);
     }
 }

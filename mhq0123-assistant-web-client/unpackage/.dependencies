@@ -1,1 +1,23 @@
-null
+{
+  "register.html": {
+    "href": "register.html",
+    "resources": [],
+    "priority": 0
+  },
+  "forget_password.html": {
+    "href": "forget_password.html",
+    "resources": [],
+    "priority": 1
+  },
+  "setting.html": {
+    "href": "setting.html",
+    "resources": [],
+    "priority": 2
+  },
+  "index.html": {
+    "href": "index.html",
+    "resources": [],
+    "refer": [],
+    "priority": 0
+  }
+}

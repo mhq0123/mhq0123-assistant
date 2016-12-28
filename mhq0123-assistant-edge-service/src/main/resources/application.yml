@@ -1,11 +1,11 @@
 #端口
 server:
-  port: 8150
+  port: 8155
 
 #应用信息
 spring:
   application:
-    name: mhq0123-assistant-edgeservice-message
+    name: mhq0123-assistant-edgeservice
 
   #默认开发
   profiles:
