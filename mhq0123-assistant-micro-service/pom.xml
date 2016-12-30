@@ -17,4 +17,24 @@
         <module>mhq0123-assistant-microservice-databank-invoker</module>
     </modules>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>${version.org.mybatis.spring.boot}</version>
+        </dependency>
+        <!-- mysql 驱动 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${version.mysql.driver}</version>
+        </dependency>
+        <!-- 数据库连接池 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>${version.com.alibaba.druid}</version>
+        </dependency>
+    </dependencies>
+
 </project>

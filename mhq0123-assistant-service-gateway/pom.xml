@@ -12,18 +12,6 @@
     <artifactId>mhq0123-assistant-service-gateway</artifactId>
     <packaging>jar</packaging>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${version.org.springframework.cloud}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
     <dependencies>
         <!--路由网关-->
         <dependency>
@@ -31,46 +19,6 @@
             <artifactId>spring-cloud-starter-zuul</artifactId>
             <version>${version.org.springframework.cloud.zuul}</version>
         </dependency>
-        <!--服务注册及发现-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-eureka</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <version>${version.org.springframework.boot}</version>
-            <scope>test</scope>
-        </dependency>
-        <!--TODO restful服务启动需要引入这两个包fasterxml.jackson-->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-            <version>${version.com.fasterxml.jackson}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>${version.com.fasterxml.jackson}</version>
-        </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <!--clean install spring-boot:repackage-->
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${version.org.springframework.boot}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

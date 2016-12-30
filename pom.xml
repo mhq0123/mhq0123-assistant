@@ -35,8 +35,93 @@
         <version.org.springframework.cloud.zuul>1.2.3.RELEASE</version.org.springframework.cloud.zuul>
         <version.com.fasterxml.jackson>2.8.5</version.com.fasterxml.jackson>
         <version.com.alibaba.fastjson>1.2.22</version.com.alibaba.fastjson>
-
+        <version.org.mybatis.spring.boot>1.1.1</version.org.mybatis.spring.boot>
+        <version.mysql.driver>6.0.5</version.mysql.driver>
+        <version.com.alibaba.druid>1.0.27</version.com.alibaba.druid>
         <!--plugs-->
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${version.org.springframework.cloud}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!--配置服务-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+        </dependency>
+        <!--springboot 配置自动装载 cloud-config-client 要用到-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <version>${version.org.springframework.boot}</version>
+        </dependency>
+        <!--开启刷新功能-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+            <version>${version.org.springframework.boot}</version>
+        </dependency>
+        <!--消息模块
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bus-amqp</artifactId>
+        </dependency>-->
+        <!--服务注册及发现-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-eureka</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>${version.org.springframework.boot}</version>
+            <scope>test</scope>
+        </dependency>
+        <!--TODO restful服务启动需要引入这两个包fasterxml.jackson-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${version.com.fasterxml.jackson}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${version.com.fasterxml.jackson}</version>
+        </dependency>
+        <!--json 处理-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${version.com.alibaba.fastjson}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!--clean install spring-boot:repackage-->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${version.org.springframework.boot}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
