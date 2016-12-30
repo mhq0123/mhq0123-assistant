@@ -17,19 +17,18 @@ eureka:
     service-url:
       defaultZone: http://localhost:8177/eureka/
 
+#日志
+logging:
+  config: classpath:logback-spring.xml
+  path: /root/mhq0123-assistant/logs/${spring.application.name}
+  file: ${spring.application.name}
+
 #开发
 ---
 spring:
   profiles: dev
 
-#日志
-logging:
-  config: classpath:logback-dev.xml
-
 ---
 #生产
 spring:
   profiles: prod
-
-logging:
-  config: classpath:logback-prod.xml

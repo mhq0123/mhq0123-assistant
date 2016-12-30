@@ -8,11 +8,11 @@
 	</appender>
 	<!-- 文件日志 -->
 	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>/root/mhq0123-assistant/logs/mhq0123-assistant-config-server/mhq0123-assistant-config-server.log</file>
+		<file>${LOG_PATH}/${LOG_FILE}.log</file>
 		 
          <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
          <!-- linux 下后缀为gz, window 下后缀为zip -->
-		    <fileNamePattern>/root/mhq0123-assistant/logs/mhq0123-assistant-config-server/mhq0123-assistant-config-server_%d{yyyy-MM-dd}_%i.log.gz</fileNamePattern>
+		    <fileNamePattern>${LOG_PATH}/${LOG_FILE}_%d{yyyy-MM-dd}_%i.log.gz</fileNamePattern>
 	      	<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
 	    	 	<maxFileSize>100MB</maxFileSize>
 	   	  	</timeBasedFileNamingAndTriggeringPolicy>        
@@ -24,9 +24,20 @@
         </encoder>
     </appender>   
 
-	<root level="info">
-		<appender-ref ref="FILE" />
-		<appender-ref ref="STDOUT" />
-	</root>
+	<!-- 开发环境-->
+	<springProfile name="dev">
+		<root level="info">
+			<appender-ref ref="FILE" />
+			<appender-ref ref="STDOUT" />
+		</root>
+	</springProfile>
+
+	<!-- 测试、生产环境 -->
+	<springProfile name="test,prod">
+		<root level="info">
+			<appender-ref ref="FILE" />
+			<!--jar启动不要这个，tomcat容器下要<appender-ref ref="STDOUT" />-->
+		</root>
+	</springProfile>
 	
 </configuration>
