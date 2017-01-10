@@ -48,7 +48,7 @@
 			<form class="mui-input-group">
 				<div class="mui-input-row">
 					<label>账号</label>
-					<input id='account' type="text" class="mui-input-clear mui-input" placeholder="请输入账号">
+					<input id='accountName' type="text" class="mui-input-clear mui-input" placeholder="请输入账号">
 				</div>
 				<div class="mui-input-row">
 					<label>密码</label>
@@ -81,13 +81,13 @@
 				$.plusReady(function() {
 					var settings = app.getSettings();
 					var registerButton = doc.getElementById('register');
-					var accountBox = doc.getElementById('account');
+					var accountNameBox = doc.getElementById('accountName');
 					var passwordBox = doc.getElementById('password');
 					var passwordConfirmBox = doc.getElementById('password_confirm');
 					var emailBox = doc.getElementById('email');
 					registerButton.addEventListener('tap', function(event) {
 						var registerInfo = {
-							account: accountBox.value,
+							accountName: accountNameBox.value,
 							password: passwordBox.value,
 							email: emailBox.value
 						};
@@ -111,13 +111,13 @@
 								plus.webview.currentWebview().close("none");
 							});
 							//若启动页不是登录页，则需通过如下方式打开登录页
-//							$.openWindow({
-//								url: 'login.html',
-//								id: 'login',
-//								show: {
-//									aniShow: 'pop-in'
-//								}
-//							});
+							$.openWindow({
+								url: 'index.html',
+								id: 'index',
+								show: {
+									aniShow: 'pop-in'
+								}
+							});
 						});
 					});
 				});

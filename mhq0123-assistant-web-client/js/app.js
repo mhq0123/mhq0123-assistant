@@ -43,21 +43,42 @@
 	owner.register = function(registerInfo, callback) {
 		callback = callback || $.noop;
 		registerInfo = registerInfo || {};
-		registerInfo.account = registerInfo.account || '';
+		registerInfo.accountName = registerInfo.accountName || '';
 		registerInfo.password = registerInfo.password || '';
-		if (registerInfo.account.length < 5) {
-			return callback('用户名最短需要 5 个字符');
-		}
-		if (registerInfo.password.length < 6) {
-			return callback('密码最短需要 6 个字符');
-		}
-		if (!checkEmail(registerInfo.email)) {
-			return callback('邮箱地址不合法');
-		}
-		var users = JSON.parse(localStorage.getItem('$users') || '[]');
-		users.push(registerInfo);
-		localStorage.setItem('$users', JSON.stringify(users));
-		return callback();
+//		if (registerInfo.accountName.length < 5) {
+//			return callback('用户名最短需要 5 个字符');
+//		}
+//		if (registerInfo.password.length < 6) {
+//			return callback('密码最短需要 6 个字符');
+//		}
+//		if (!checkEmail(registerInfo.email)) {
+//			return callback('邮箱地址不合法');
+//		}
+		// 请求注册服务
+		$.ajax('http://192.168.0.102:8099/customer/register',{
+			data:{
+				accountName:	registerInfo.accountName,
+				password:		registerInfo.password,
+				email:			registerInfo.email
+			},
+			dataType:'json',//服务器返回json格式数据
+			type:'post',//HTTP请求类型
+			timeout:10000,//超时时间设置为10秒；
+			headers:{'Content-Type':'application/json'},	              
+			success:function(data){
+				//服务器返回响应，根据响应结果，分析是否登录成功；
+				var users = JSON.parse(localStorage.getItem('$users') || '[]');
+				users.push(registerInfo);
+				localStorage.setItem('$users', JSON.stringify(users));
+				return callback(data);
+			},
+			error:function(xhr,type,errorThrown){
+				//异常处理；
+				console.log(type);
+				console.log(errorThrown);
+				return callback(errorThrown);
+			}
+		});
 	};
 
 	/**
