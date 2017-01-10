@@ -19,7 +19,23 @@
             <artifactId>mhq0123-assistant-microservice-databank-invoker</artifactId>
             <version>${version.com.mhq0123.assistant.microservice.databank}</version>
         </dependency>
-
     </dependencies>
+
+    <build>
+        <plugins>
+            <!--clean install spring-boot:repackage-->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
