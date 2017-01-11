@@ -45,15 +45,15 @@
 		registerInfo = registerInfo || {};
 		registerInfo.accountName = registerInfo.accountName || '';
 		registerInfo.password = registerInfo.password || '';
-//		if (registerInfo.accountName.length < 5) {
-//			return callback('用户名最短需要 5 个字符');
-//		}
-//		if (registerInfo.password.length < 6) {
-//			return callback('密码最短需要 6 个字符');
-//		}
-//		if (!checkEmail(registerInfo.email)) {
-//			return callback('邮箱地址不合法');
-//		}
+		if (registerInfo.accountName.length < 5) {
+			return callback('用户名最短需要 5 个字符');
+		}
+		if (registerInfo.password.length < 6) {
+			return callback('密码最短需要 6 个字符');
+		}
+		if (!checkEmail(registerInfo.email)) {
+			return callback('邮箱地址不合法');
+		}
 		// 请求注册服务
 		$.ajax(AssistantConfig.customer_server + '/customer/register',{
 			data:{
@@ -66,11 +66,13 @@
 			timeout:10000,//超时时间设置为10秒；
 			headers:{'Content-Type':'application/json'},	              
 			success:function(data){
-				//服务器返回响应，根据响应结果，分析是否登录成功；
-				var users = JSON.parse(localStorage.getItem('$users') || '[]');
-				users.push(registerInfo);
-				localStorage.setItem('$users', JSON.stringify(users));
-				return callback(data);
+				if(data = 'true') {
+					//服务器返回响应，根据响应结果，分析是否登录成功；
+					var users = JSON.parse(localStorage.getItem('$users') || '[]');
+					users.push(registerInfo);
+					localStorage.setItem('$users', JSON.stringify(users));
+				} 
+				return callback();
 			},
 			error:function(xhr,type,errorThrown){
 				//异常处理；
