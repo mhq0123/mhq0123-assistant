@@ -129,6 +129,7 @@
 		</div>
 		<script src="js/mui.min.js"></script>
 		<script src="js/mui.enterfocus.js"></script>
+		<script src="js/config.js"></script> 
 		<script src="js/app.js"></script>
 		<script>
 			(function($, doc) {
@@ -239,10 +240,10 @@
 							password: passwordBox.value
 						};
 						app.login(loginInfo, function(err) {
-							if (err) {
-								plus.nativeUI.toast(err);
-								return;
-							}
+//							if (err) {
+//								plus.nativeUI.toast(err);
+//								return;
+//							}
 							toMain();
 						});
 					});

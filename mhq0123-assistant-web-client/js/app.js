@@ -55,7 +55,7 @@
 //			return callback('邮箱地址不合法');
 //		}
 		// 请求注册服务
-		$.ajax('http://192.168.0.102:8099/customer/register',{
+		$.ajax(AssistantConfig.customer_server + '/customer/register',{
 			data:{
 				accountName:	registerInfo.accountName,
 				password:		registerInfo.password,
