@@ -240,10 +240,10 @@
 							password: passwordBox.value
 						};
 						app.login(loginInfo, function(err) {
-//							if (err) {
-//								plus.nativeUI.toast(err);
-//								return;
-//							}
+							if (err) {
+								plus.nativeUI.toast(err);
+								return;
+							}
 							toMain();
 						});
 					});
