@@ -361,6 +361,5 @@
 	},
 	"unpackage": [
 		"README.md"
-	],
-	"fullscreen": true
+	]
 }
