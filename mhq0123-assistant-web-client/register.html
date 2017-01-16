@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<title></title>
+		<title>注册</title>
 		<link href="css/mui.min.css" rel="stylesheet" />
 		<link href="css/style.css" rel="stylesheet" />
 		<style>
@@ -41,7 +41,7 @@
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 			<h1 class="mui-title">注册</h1>
 		</header>
-		<div class="mui-content" style="padding-top: 30%;">
+		<div class="mui-content" style="padding-top: 20%;">
 			<div style="text-align: center; margin-bottom: 10%;">
 				<img src="images/logo.png" style="width: 40%;height: 20%"/>
 			</div>
@@ -52,24 +52,33 @@
 				</div>
 				<div class="mui-input-row">
 					<label>密码</label>
-					<input id='password' type="password" class="mui-input-clear mui-input" placeholder="请输入密码">
+					<input id='password' type="password" class="mui-input-clear mui-input-password" placeholder="请输入密码">
 				</div>
 				<div class="mui-input-row">
 					<label>确认</label>
-					<input id='password_confirm' type="password" class="mui-input-clear mui-input" placeholder="请确认密码">
+					<input id='password_confirm' type="password" class="mui-input-clear mui-input-password" placeholder="请确认密码">
 				</div>
 				<div class="mui-input-row">
-					<label>邮箱</label>
-					<input id='email' type="email" class="mui-input-clear mui-input" placeholder="请输入邮箱">
+					<label>昵称</label>
+					<input id='nickName' type="text" class="mui-input-clear mui-input" placeholder="请输入昵称">
+				</div>
+				<div class="mui-input-row">
+					<label >邮箱</label>
+					<input id='email' type="email" style="width: 50%;float: left;" class="mui-input" placeholder="请输入邮箱">
+					<button type="button" id="verificationCodeBtn" style="width: 85px;margin-right: 2px;" data-loading-text="发送中" class="mui-btn mui-btn-primary mui-btn-outlined" >验证码</button>
+				</div>
+				<div class="mui-input-row">
+					<label>验证码</label>
+					<input id='verificationCode' type="text" class="mui-input-clear mui-input" placeholder="请输入验证码">
 				</div>
 			</form>
 			<div class="mui-content-padded">
-				<button id='register' class="mui-btn mui-btn-block mui-btn-primary">注册</button>
+				<button id='registerBtn' data-loading-text="提交中" class="mui-btn mui-btn-block mui-btn-primary">注册</button>
 			</div>
 			<div class="mui-content-padded oauth-area">
 
 			</div>
-			<div style="text-align: center; margin-top: 40%;">
+			<div style="text-align: center; margin-top: 30%;">
 				<p>&copy;2016 mhq0123</p>
 			</div>
 		</div>
@@ -78,49 +87,187 @@
 		<script src="js/app.js"></script>
 		<script>
 			(function($, doc) {
-				$.init();
+				$.init({
+					beforeback: function() {
+						//清空输入的值
+						doc.getElementById('accountName').value = '';
+						doc.getElementById('password').value = '';
+						doc.getElementById('password_confirm').value = '';
+						doc.getElementById('nickName').value = '';
+						doc.getElementById('email').value = '';
+						doc.getElementById('verificationCode').value = '';
+						$(doc.getElementById("verificationCodeBtn")).button('reset');
+						$(doc.getElementById("registerBtn")).button('reset');
+					}
+				});
 				$.plusReady(function() {
 					var settings = app.getSettings();
-					var registerButton = doc.getElementById('register');
+					// input
 					var accountNameBox = doc.getElementById('accountName');
 					var passwordBox = doc.getElementById('password');
 					var passwordConfirmBox = doc.getElementById('password_confirm');
+					var nickNameBox = doc.getElementById('nickName');
 					var emailBox = doc.getElementById('email');
-					registerButton.addEventListener('tap', function(event) {
+					var verificationCodeBox = doc.getElementById('verificationCode');
+					// button
+					var registerButton = doc.getElementById('registerBtn');
+					var verificationCodeButton = doc.getElementById("verificationCodeBtn");
+					// 监听
+					verificationCodeButton.addEventListener('tap', function(e) {
 						var registerInfo = {
 							accountName: accountNameBox.value,
 							password: passwordBox.value,
-							email: emailBox.value
+							passwordConfirm: passwordConfirmBox.value,
+							nickName: nickNameBox.value,
+							email: emailBox.value,
+							verificationCode: verificationCodeBox.value,
+							checkVerificationCode: false
 						};
-						var passwordConfirm = passwordConfirmBox.value;
-						if (passwordConfirm != registerInfo.password) {
-							plus.nativeUI.toast('密码两次输入不一致');
+						var obj = $(this);
+						if(!checkForm(registerInfo)) {
 							return;
 						}
-						app.register(registerInfo, function(err) {
-							if (err) {
-								plus.nativeUI.toast(err);
-								return;
-							}
-							plus.nativeUI.toast('注册成功');
-							/*
-							 * 注意：
-							 * 1、因本示例应用启动页就是登录页面，因此注册成功后，直接显示登录页即可；
-							 * 2、如果真实案例中，启动页不是登录页，则需修改，使用mui.openWindow打开真实的登录页面
-							 */
-							plus.webview.getLaunchWebview().show("pop-in",200,function () {
-								plus.webview.currentWebview().close("none");
-							});
-							//若启动页不是登录页，则需通过如下方式打开登录页
-							$.openWindow({
-								url: 'login.html',
-								id: 'login',
-								show: {
-									aniShow: 'pop-in'
+						// 发送验证码
+						$.ajax(AssistantConfig.customer_server + '/customer/checkExistAndSendVerificationCode',{
+							data:{
+								accountName:	registerInfo.accountName,
+								email:			registerInfo.email
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'post',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							headers:{'Content-Type':'application/json'},	  
+							beforeSend: function() {
+								plus.nativeUI.showWaiting( "发送中..." );
+								obj.button('loading');
+							},
+							complete: function() {
+								plus.nativeUI.closeWaiting();
+								obj.button('reset');
+							},
+							success:function(data){
+								if(data.status == 'SUCCESS') {
+									mui.alert('发送成功');
+									plus.nativeUI.closeWaiting();
+									// 发送后倒计时
+									var shoutDown = 60;
+									verificationCodeButton.setAttribute('data-loading-text', shoutDown + 's');
+									obj.button('reset');
+									obj.button('loading');
+								    var interval = setInterval(function() {
+								    	shoutDown = shoutDown - 1;
+								    	if(shoutDown < 1) {
+								        	obj.button('reset');
+								        	clearInterval(interval);
+								    	}
+								    	verificationCodeButton.setAttribute('data-loading-text', shoutDown + 's');
+										obj.button('reset');
+										obj.button('loading');
+								    }, 1000);
+								} else {
+									mui.alert('发送出错：'+data.message);
 								}
-							});
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+								console.log(errorThrown);
+								mui.alert('发送出错：'+errorThrown);
+							}
 						});
 					});
+					
+					// 监听
+					registerButton.addEventListener('tap', function(e) {
+						var registerInfo = {
+							accountName: accountNameBox.value,
+							password: passwordBox.value,
+							passwordConfirm: passwordConfirmBox.value,
+							nickName: nickNameBox.value,
+							email: emailBox.value,
+							verificationCode: verificationCodeBox.value,
+							checkVerificationCode: true
+						};
+						var obj = $(this);
+						if(!checkForm(registerInfo)) {
+							return;
+						}
+						// 注册
+						$.ajax(AssistantConfig.customer_server + '/customer/register',{
+							data:{
+								accountName:	registerInfo.accountName,
+								password: 		registerInfo.password,
+								nickName: 		registerInfo.nickName,
+								email:			registerInfo.email,
+								verificationCode: 		registerInfo.verificationCode
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'post',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							headers:{'Content-Type':'application/json'},	  
+							beforeSend: function() {
+								plus.nativeUI.showWaiting( "注册中..." );
+								obj.button('loading');
+							},
+							complete: function() {
+								plus.nativeUI.closeWaiting();
+								obj.button('reset');
+							},
+							success:function(data){
+								if(data.status == 'SUCCESS') {
+									mui.alert('注册成功');
+									obj.button('reset');
+									// 跳转登陆页
+									$.openWindow({
+										url: 'login.html',
+										id: 'login',
+										show: {
+											aniShow: 'pop-in'
+										}
+									});
+								} else {
+									mui.alert('注册出错：'+data.message);
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+								console.log(errorThrown);
+								mui.alert('注册出错:' + errorThrown);
+							}
+						});
+					});
+					
+					/** 检查表单*/
+					function checkForm(registerInfo) {
+						if (!registerInfo.accountName.match(/^\w{5,20}$/)) {
+							mui.alert('用户名请输入5到20位之间的大小写字母与数字组合');
+							return false;
+						}
+						if (!registerInfo.password.match(/^\w{6,30}$/)) {
+							mui.alert('密码请输入6到30位之间的大小写字母与数字组合');
+							return false;
+						}
+						if (registerInfo.passwordConfirm != registerInfo.password) {
+							mui.alert('密码两次输入不一致');
+							return false;
+						}
+						if (registerInfo.nickName.length < 2 || registerInfo.nickName.length > 30) {
+							mui.alert('昵称请输入2到30位字符');
+							return false;
+						}
+						if (!registerInfo.email.match(/^\w{1,30}\@\w{1,10}\.\w{2,5}$/)) {
+							mui.alert('邮箱地址不合法');
+							return false;
+						}
+						if(registerInfo.checkVerificationCode == true) {
+							if (!registerInfo.verificationCode.match(/^\d{6}$/)) {
+								mui.alert('验证码为6位数字');
+								return false;
+							}
+						}
+						return true;
+					};
 				});
 			}(mui, document));
 		</script>
