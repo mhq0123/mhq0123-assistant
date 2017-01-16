@@ -4,30 +4,6 @@
  * 请注意将相关方法调整成 “基于服务端Service” 的实现。
  **/
 (function($, owner) {
-	/**
-	 * 用户登录
-	 **/
-	owner.login = function(loginInfo, callback) {
-		callback = callback || $.noop;
-		loginInfo = loginInfo || {};
-		loginInfo.account = loginInfo.account || '';
-		loginInfo.password = loginInfo.password || '';
-		if (loginInfo.account.length < 5) {
-			return callback('账号最短为 5 个字符');
-		}
-		if (loginInfo.password.length < 6) {
-			return callback('密码最短为 6 个字符');
-		}
-		var users = JSON.parse(localStorage.getItem('$users') || '[]');
-		var authed = users.some(function(user) {
-			return loginInfo.account == user.account && loginInfo.password == user.password;
-		});
-		if (authed) {
-			return owner.createState(loginInfo.account, callback);
-		} else {
-			return callback('用户名或密码错误');
-		}
-	};
 
 	owner.createState = function(name, callback) {
 		var state = owner.getState();
@@ -37,51 +13,6 @@
 		return callback();
 	};
 
-	/**
-	 * 新用户注册
-	 **/
-	owner.register = function(registerInfo, callback) {
-		callback = callback || $.noop;
-		registerInfo = registerInfo || {};
-		registerInfo.accountName = registerInfo.accountName || '';
-		registerInfo.password = registerInfo.password || '';
-		if (registerInfo.accountName.length < 5) {
-			return callback('用户名最短需要 5 个字符');
-		}
-		if (registerInfo.password.length < 6) {
-			return callback('密码最短需要 6 个字符');
-		}
-		if (!checkEmail(registerInfo.email)) {
-			return callback('邮箱地址不合法');
-		}
-		// 请求注册服务
-		$.ajax(AssistantConfig.customer_server + '/customer/register',{
-			data:{
-				accountName:	registerInfo.accountName,
-				password:		registerInfo.password,
-				email:			registerInfo.email
-			},
-			dataType:'json',//服务器返回json格式数据
-			type:'post',//HTTP请求类型
-			timeout:10000,//超时时间设置为10秒；
-			headers:{'Content-Type':'application/json'},	              
-			success:function(data){
-				if(data = 'true') {
-					//服务器返回响应，根据响应结果，分析是否登录成功；
-					var users = JSON.parse(localStorage.getItem('$users') || '[]');
-					users.push(registerInfo);
-					localStorage.setItem('$users', JSON.stringify(users));
-				} 
-				return callback();
-			},
-			error:function(xhr,type,errorThrown){
-				//异常处理；
-				console.log(type);
-				console.log(errorThrown);
-				return callback(errorThrown);
-			}
-		});
-	};
 
 	/**
 	 * 获取当前状态
@@ -117,6 +48,22 @@
 		}
 		return callback(null, '新的随机密码已经发送到您的邮箱，请查收邮件。');
 	};
+	
+	/**
+	 * 获取应用本地
+	 **/
+	owner.setCustomerAccount = function(customerAccount) {
+		customerAccount = customerAccount || {};
+		localStorage.setItem('$customerAccount', JSON.stringify(customerAccount));
+	}
+
+	/**
+	 * 设置应用本地
+	 **/
+	owner.getCustomerAccount = function() {
+		var customerAccountText = localStorage.getItem('$customerAccount') || "{}";
+		return JSON.parse(customerAccountText);
+	}
 
 	/**
 	 * 获取应用本地配置
@@ -130,9 +77,9 @@
 	 * 设置应用本地配置
 	 **/
 	owner.getSettings = function() {
-			var settingsText = localStorage.getItem('$settings') || "{}";
-			return JSON.parse(settingsText);
-		}
+		var settingsText = localStorage.getItem('$settings') || "{}";
+		return JSON.parse(settingsText);
+	}
 		/**
 		 * 获取本地是否安装客户端
 		 **/
