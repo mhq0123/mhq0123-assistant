@@ -165,7 +165,40 @@
 					};
 					// 若是自动登陆
 					if(settings.autoLogin && customerAccount.accountId > 0) {
-						toMain();
+						$.ajax(AssistantConfig.customer_server + '/customer/autoLogin',{
+							data:{
+								loginId:	customerAccount.loginId,
+								accountId: 		customerAccount.accountId,
+								sourceSystem: AssistantConfig.source_system,
+								terminalType: AssistantConfig.terminal_type,
+								equipmentIdentity: plus.device.uuid
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'post',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							headers:{'Content-Type':'application/json'},	  
+							beforeSend: function() {
+								plus.nativeUI.showWaiting( "登陆中..." );
+							},
+							complete: function() {
+								plus.nativeUI.closeWaiting();
+							},
+							success:function(data){
+								if(data.status == 'SUCCESS') {
+									mui.alert('登陆成功');
+									// 跳转
+									toMain();
+								} else {
+									mui.alert('登陆出错：'+data.message);
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+								console.log(errorThrown);
+								mui.alert('登陆出错:' + errorThrown);
+							}
+						});
 					}
 					
 //					//检查 "登录状态/锁屏状态" 开始

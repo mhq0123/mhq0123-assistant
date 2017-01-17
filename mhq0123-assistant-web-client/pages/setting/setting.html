@@ -381,9 +381,9 @@
 		document.getElementById('exit').addEventListener('tap', function() {
 			if (mui.os.ios) {
 				var customerAccount = app.getCustomerAccount();
-					$.ajax(AssistantConfig.customer_server + '/customer/logout',{
+					mui.ajax(AssistantConfig.customer_server + '/customer/logout',{
 							data:{
-								loginId:	customerAccount.loginId,
+								loginId:	customerAccount.loginId + '',
 								accountId: 		customerAccount.accountId,
 								sourceSystem: AssistantConfig.source_system,
 								terminalType: AssistantConfig.terminal_type,
