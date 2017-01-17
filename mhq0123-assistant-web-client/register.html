@@ -41,7 +41,7 @@
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 			<h1 class="mui-title">注册</h1>
 		</header>
-		<div class="mui-content" style="padding-top: 20%;">
+		<div class="mui-content" style="padding-top: 25%;">
 			<div style="text-align: center; margin-bottom: 10%;">
 				<img src="images/logo.png" style="width: 40%;height: 20%"/>
 			</div>
@@ -78,7 +78,7 @@
 			<div class="mui-content-padded oauth-area">
 
 			</div>
-			<div style="text-align: center; margin-top: 30%;">
+			<div style="text-align: center; margin-top: 25%;">
 				<p>&copy;2016 mhq0123</p>
 			</div>
 		</div>
@@ -89,7 +89,6 @@
 			(function($, doc) {
 				$.init({
 					beforeback: function() {
-						//清空输入的值
 						doc.getElementById('accountName').value = '';
 						doc.getElementById('password').value = '';
 						doc.getElementById('password_confirm').value = '';
@@ -143,7 +142,6 @@
 							},
 							complete: function() {
 								plus.nativeUI.closeWaiting();
-								obj.button('reset');
 							},
 							success:function(data){
 								if(data.status == 'SUCCESS') {
@@ -151,20 +149,20 @@
 									plus.nativeUI.closeWaiting();
 									// 发送后倒计时
 									var shoutDown = 60;
-									verificationCodeButton.setAttribute('data-loading-text', shoutDown + 's');
-									obj.button('reset');
 									obj.button('loading');
+									verificationCodeButton.innerHTML = shoutDown + 's';
 								    var interval = setInterval(function() {
 								    	shoutDown = shoutDown - 1;
 								    	if(shoutDown < 1) {
 								        	obj.button('reset');
+								        	verificationCodeButton.innerHTML = '验证码';
 								        	clearInterval(interval);
+								    	} else {
+									    	verificationCodeButton.innerHTML = shoutDown + 's';
 								    	}
-								    	verificationCodeButton.setAttribute('data-loading-text', shoutDown + 's');
-										obj.button('reset');
-										obj.button('loading');
 								    }, 1000);
 								} else {
+									obj.button('reset');
 									mui.alert('发送出错：'+data.message);
 								}
 							},
@@ -172,6 +170,7 @@
 								//异常处理；
 								console.log(type);
 								console.log(errorThrown);
+								obj.button('reset');
 								mui.alert('发送出错：'+errorThrown);
 							}
 						});
@@ -216,7 +215,7 @@
 							success:function(data){
 								if(data.status == 'SUCCESS') {
 									mui.alert('注册成功');
-									obj.button('reset');
+									clearForm();
 									// 跳转登陆页
 									$.openWindow({
 										url: 'login.html',
@@ -268,6 +267,19 @@
 						}
 						return true;
 					};
+					
+					//清空
+					function clearForm() {
+						//清空输入的值
+						doc.getElementById('accountName').value = '';
+						doc.getElementById('password').value = '';
+						doc.getElementById('password_confirm').value = '';
+						doc.getElementById('nickName').value = '';
+						doc.getElementById('email').value = '';
+						doc.getElementById('verificationCode').value = '';
+						$(doc.getElementById("verificationCodeBtn")).button('reset');
+						$(doc.getElementById("registerBtn")).button('reset');
+					}
 				});
 			}(mui, document));
 		</script>
